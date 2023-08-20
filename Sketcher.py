@@ -54,30 +54,6 @@ def scale_grid(grid, up):
         for col in range(N):
             row.append(0)
         new_grid.append(row)
-    if up:
-        for row in range(N // 4):
-            for col in range(N // 4):
-                current = grid[row][col]
-                for r in range(0, N // 4, 2):
-                    for c in range(0, N // 4, 2):
-                        new_grid[r][c] = current
-                        new_grid[r][c+1] = current
-                        new_grid[r+1][c] = current
-                        new_grid[r+1][c+1] = current
-    else:
-        current = 0
-        for r in range(0, N // 4, 2):
-            for c in range(0, N // 4, 2):
-                current += grid[r][c]
-                current += grid[r][c+1]
-                current += grid[r+1][c]
-                current += grid[r+1][c+1]
-
-                current /= 4
-                current = round(current)
-                for row in range(N):
-                    for col in range(N):
-                        new_grid[row][col] = current
 
     return new_grid
 
