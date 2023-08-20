@@ -38,7 +38,7 @@ def scale_grid(grid, up):
     global N
     global W
     if up:
-        if P+1 > 3:
+        if P+1 > 4:
             return grid
         P += 1
     else:
@@ -54,11 +54,44 @@ def scale_grid(grid, up):
         for col in range(N):
             row.append(0)
         new_grid.append(row)
+    
+    if up:
+        n = 4**(P-1)
+        for row in range(n):
+            for col in range(n):
+                current = grid[row][col]
+                R = 4*row
+                C = 4*col
+
+                for i in range(4):
+                    for j in range(4):
+                        new_grid[R+i][C+j] = current
+    else:
+        for row in range(N):
+            for col in range(N):
+                current = 0
+
+                R = 4*row
+                C = 4*col
+
+                for i in range(4):
+                    for j in range(4):
+                        current += grid[R+i][C+j]
+                current /= 16
+                current += 0.2
+                current = int(round(current))
+
+                new_grid[row][col] = current
+
+
 
     return new_grid
 
 
 def main():
+    print("\nPress 1, and 2 respectively to downgrade and upgrade between 3 levels of fidelity,\n"+
+          "don't worry your work will be saved (in a way) :)")
+
     global P
     global N
     global W
@@ -113,6 +146,9 @@ def main():
                 mouse_down = True
             if event.type == pg.MOUSEBUTTONUP:
                 mouse_down = False
+            mouse_pos = pg.mouse.get_pos()
+            if not (-1<mouse_pos[0]<screen_width and -1<mouse_pos[1]<screen_height):
+                mouse_down = False  
         
         
         pg.display.update()
